@@ -15,42 +15,42 @@ namespace CalculatorAPI.Controllers
             _logger = logger;
         }
 
-        // GET: api/<CalculatorController>
+        // GET: api/Calculator/Sum/1/2
         [HttpGet("Sum/{val1}/{val2}")]
         public int Sum([FromRoute] int val1, int val2)
         {
             return val1 + val2;
         }
-        
-        // GET: api/<CalculatorController>
+
+        // GET: api/Calculator/Substract/1/2
         [HttpGet("Substract/{val1}/{val2}")]
         public int Substract([FromRoute] int val1, int val2)
         {
             return val1 - val2;
         }
 
-        // GET: api/<CalculatorController>
+        // GET: api/Calculator/Multiply/1/2
         [HttpGet("Multiply/{val1}/{val2}")]
         public int Multiply([FromRoute] int val1, int val2)
         {
             return val1 * val2;
         }
 
-        // GET: api/<CalculatorController>
+        // GET: api/Calculator/Divide/1/2
         [HttpGet("Divide/{val1}/{val2}")]
         public double Divide([FromRoute] double val1, double val2)
         {
             return (val2 == 0) ? 0 : (val1 / val2);
         }
 
-        // GET: api/<CalculatorController>
+        // GET: api/Calculator/Power/1/2
         [HttpGet("Power/{val1}/{val2}")]
         public double Power([FromRoute] double val1, double val2)
         {
             return Math.Pow(val1, val2);
         }
 
-        // GET: api/<CalculatorController>
+        // GET: api/Calculator/SquareRoot/1/2
         [HttpGet("SquareRoot/{val1}")]
         public double SquareRoot([FromRoute] double val1)
         {
