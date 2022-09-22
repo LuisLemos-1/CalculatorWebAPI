@@ -23,8 +23,8 @@ namespace CalculatorAPI.Controllers
         }
         
         // GET: api/<CalculatorController>
-        [HttpGet("Subtract/{val1}/{val2}")]
-        public int Subtract([FromRoute] int val1, int val2)
+        [HttpGet("Substract/{val1}/{val2}")]
+        public int Substract([FromRoute] int val1, int val2)
         {
             return val1 - val2;
         }
@@ -38,16 +38,23 @@ namespace CalculatorAPI.Controllers
 
         // GET: api/<CalculatorController>
         [HttpGet("Divide/{val1}/{val2}")]
-        public int Divide([FromRoute] int val1, int val2)
+        public double Divide([FromRoute] double val1, double val2)
         {
-            return (val2 == 0) ? 0 : val1 / val2;
+            return (val2 == 0) ? 0 : (val1 / val2);
         }
 
         // GET: api/<CalculatorController>
         [HttpGet("Power/{val1}/{val2}")]
-        public double Power([FromRoute] int val1, int val2)
+        public double Power([FromRoute] double val1, double val2)
         {
             return Math.Pow(val1, val2);
+        }
+
+        // GET: api/<CalculatorController>
+        [HttpGet("SquareRoot/{val1}")]
+        public double SquareRoot([FromRoute] double val1)
+        {
+            return Math.Sqrt(val1);
         }
 
         // GET: api/<CalculatorController>
