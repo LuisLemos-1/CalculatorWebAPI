@@ -44,37 +44,32 @@ namespace CalculatorAPI.Controllers
         }
 
         // GET: api/Customer/id
-        [HttpGet("{id}")]
-        public IActionResult Get([FromRoute] int id)
+        [HttpGet("{id}", Name = "GetCustomerById")]
+        public IActionResult GetCustomerById([FromRoute] int id)
         {
             Customer findCostumer = _customers.Find(e => e.Id == id);
             return (findCostumer == null) ? NotFound() : Ok(findCostumer);
-
-            //return _customers.Find(e => e.Id == id) == null ? NotFound() : Ok(_customers.Find(e => e.Id == id));
         }
 
         // POST api/Customer
         [HttpPost]
-        public IActionResult Post([FromBody] string value)
+        public IActionResult Post([FromBody] Customer newCustomer)
         {
             try
             {
-                Customer customer = JsonConvert.DeserializeObject<Customer>(value);
-
-                // Tested with
-                // "{\"Id\":4,\"Name\":\"Ana Rodrigues\",\"DOB\":\"02/10/1990 00:00:00\"}"
-                _customers.Add(customer);
-                return Ok(customer);
+                newCustomer.Id = _customers.Max(e => e.Id) + 1;
+                _customers.Add(newCustomer);
+                return CreatedAtAction(nameof(GetCustomerById), new { id = newCustomer.Id }, newCustomer);
             }
-            catch(Exception e)
+            catch(Exception ex)
             {
-                return BadRequest(e);
+                return Problem(ex.Message);
             }
         }
 
         // PUT api/Customer/id
         [HttpPut("{id}")]
-        public IActionResult Put(int id, [FromBody] string value)
+        public IActionResult Put(int id, [FromBody] Customer editedCustomer)
         {
             Customer findCostumer = _customers.Find(e => e.Id == id);
             if (findCostumer == null)
@@ -82,16 +77,14 @@ namespace CalculatorAPI.Controllers
 
             try
             {
-                Customer updateCustomer = JsonConvert.DeserializeObject<Customer>(value);
-
-                // Tested with
-                // "{\"Id\":1,\"Name\":\"Jose Manuel\",\"DOB\":\"02/10/1990 00:00:00\"}"
-                _customers[_customers.FindIndex(e => e.Id == id)] = updateCustomer;
-                return Ok(updateCustomer);
+                editedCustomer.Id = id;
+                _customers[_customers.FindIndex(e => e.Id == id)] = editedCustomer;
+                //return CreatedAtAction(nameof(GetCustomerById), new { id = findCostumer.Id}, editedCustomer);
+                return NoContent();
             }
-            catch (Exception e)
+            catch(Exception ex)
             {
-                return BadRequest(e);
+                return Problem(ex.Message);
             }
 
         }
