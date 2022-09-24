@@ -25,3 +25,4 @@ C:\Users\UtilizadorPC\Documents\GitHub\CalculatorWebAPI\CalculatorAPI\Calculator
 C:\Users\UtilizadorPC\Documents\GitHub\CalculatorWebAPI\CalculatorAPI\CalculatorAPI\obj\Debug\net6.0\CalculatorAPI.pdb
 C:\Users\UtilizadorPC\Documents\GitHub\CalculatorWebAPI\CalculatorAPI\CalculatorAPI\obj\Debug\net6.0\CalculatorAPI.genruntimeconfig.cache
 C:\Users\UtilizadorPC\Documents\GitHub\CalculatorWebAPI\CalculatorAPI\CalculatorAPI\obj\Debug\net6.0\ref\CalculatorAPI.dll
+C:\Users\UtilizadorPC\Documents\GitHub\CalculatorWebAPI\CalculatorAPI\CalculatorAPI\bin\Debug\net6.0\Newtonsoft.Json.dll

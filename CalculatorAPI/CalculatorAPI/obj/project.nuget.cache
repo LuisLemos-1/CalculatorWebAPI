@@ -1,11 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "NMncwSu7sQoYxTw9666pSIy57hyWaPPJOl+pTDoyXWB+h0ugabjXo6OcbYzdy73xnDYAn+QT5T4GqJ3Zzh+gYA==",
+  "dgSpecHash": "0ee4gUXLK3xt/e26yjCZG9kvQT89gQYVfaxLIz13N4OlbHn/aAN7q+dCe/s8P5qANUdIW8mkegoL4tQpx+ebJQ==",
   "success": true,
   "projectFilePath": "C:\\Users\\UtilizadorPC\\Documents\\GitHub\\CalculatorWebAPI\\CalculatorAPI\\CalculatorAPI\\CalculatorAPI.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\UtilizadorPC\\.nuget\\packages\\microsoft.extensions.apidescription.server\\3.0.0\\microsoft.extensions.apidescription.server.3.0.0.nupkg.sha512",
     "C:\\Users\\UtilizadorPC\\.nuget\\packages\\microsoft.openapi\\1.2.3\\microsoft.openapi.1.2.3.nupkg.sha512",
+    "C:\\Users\\UtilizadorPC\\.nuget\\packages\\newtonsoft.json\\13.0.1\\newtonsoft.json.13.0.1.nupkg.sha512",
     "C:\\Users\\UtilizadorPC\\.nuget\\packages\\swashbuckle.aspnetcore\\6.2.3\\swashbuckle.aspnetcore.6.2.3.nupkg.sha512",
     "C:\\Users\\UtilizadorPC\\.nuget\\packages\\swashbuckle.aspnetcore.swagger\\6.2.3\\swashbuckle.aspnetcore.swagger.6.2.3.nupkg.sha512",
     "C:\\Users\\UtilizadorPC\\.nuget\\packages\\swashbuckle.aspnetcore.swaggergen\\6.2.3\\swashbuckle.aspnetcore.swaggergen.6.2.3.nupkg.sha512",
