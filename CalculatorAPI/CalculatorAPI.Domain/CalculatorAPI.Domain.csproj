@@ -6,4 +6,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\CalculatorAPI.Contracts\CalculatorAPI.Contracts.csproj" />
+    <ProjectReference Include="..\CalculatorAPI.Models\CalculatorAPI.Models.csproj" />
+  </ItemGroup>
+
 </Project>

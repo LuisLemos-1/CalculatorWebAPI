@@ -81,6 +81,40 @@
         "frameworkReferences": [
           "Microsoft.AspNetCore.App"
         ]
+      },
+      "CalculatorAPI.Contracts/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v6.0",
+        "compile": {
+          "bin/placeholder/CalculatorAPI.Contracts.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/CalculatorAPI.Contracts.dll": {}
+        }
+      },
+      "CalculatorAPI.Domain/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v6.0",
+        "dependencies": {
+          "CalculatorAPI.Contracts": "1.0.0",
+          "CalculatorAPI.Models": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/CalculatorAPI.Domain.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/CalculatorAPI.Domain.dll": {}
+        }
+      },
+      "CalculatorAPI.Models/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v6.0",
+        "compile": {
+          "bin/placeholder/CalculatorAPI.Models.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/CalculatorAPI.Models.dll": {}
+        }
       }
     }
   },
@@ -236,10 +270,27 @@
         "swashbuckle.aspnetcore.swaggerui.6.2.3.nupkg.sha512",
         "swashbuckle.aspnetcore.swaggerui.nuspec"
       ]
+    },
+    "CalculatorAPI.Contracts/1.0.0": {
+      "type": "project",
+      "path": "../CalculatorAPI.Contracts/CalculatorAPI.Contracts.csproj",
+      "msbuildProject": "../CalculatorAPI.Contracts/CalculatorAPI.Contracts.csproj"
+    },
+    "CalculatorAPI.Domain/1.0.0": {
+      "type": "project",
+      "path": "../CalculatorAPI.Domain/CalculatorAPI.Domain.csproj",
+      "msbuildProject": "../CalculatorAPI.Domain/CalculatorAPI.Domain.csproj"
+    },
+    "CalculatorAPI.Models/1.0.0": {
+      "type": "project",
+      "path": "../CalculatorAPI.Models/CalculatorAPI.Models.csproj",
+      "msbuildProject": "../CalculatorAPI.Models/CalculatorAPI.Models.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net6.0": [
+      "CalculatorAPI.Contracts >= 1.0.0",
+      "CalculatorAPI.Domain >= 1.0.0",
       "Newtonsoft.Json >= 13.0.1",
       "Swashbuckle.AspNetCore >= 6.2.3"
     ]
@@ -270,7 +321,14 @@
       "frameworks": {
         "net6.0": {
           "targetAlias": "net6.0",
-          "projectReferences": {}
+          "projectReferences": {
+            "C:\\Users\\UtilizadorPC\\Documents\\GitHub\\CalculatorWebAPI\\CalculatorAPI\\CalculatorAPI.Contracts\\CalculatorAPI.Contracts.csproj": {
+              "projectPath": "C:\\Users\\UtilizadorPC\\Documents\\GitHub\\CalculatorWebAPI\\CalculatorAPI\\CalculatorAPI.Contracts\\CalculatorAPI.Contracts.csproj"
+            },
+            "C:\\Users\\UtilizadorPC\\Documents\\GitHub\\CalculatorWebAPI\\CalculatorAPI\\CalculatorAPI.Domain\\CalculatorAPI.Domain.csproj": {
+              "projectPath": "C:\\Users\\UtilizadorPC\\Documents\\GitHub\\CalculatorWebAPI\\CalculatorAPI\\CalculatorAPI.Domain\\CalculatorAPI.Domain.csproj"
+            }
+          }
         }
       },
       "warningProperties": {

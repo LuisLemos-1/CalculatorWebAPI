@@ -5,11 +5,15 @@ VisualStudioVersion = 17.2.32516.85
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CalculatorAPI", "CalculatorAPI\CalculatorAPI.csproj", "{9AC672D7-D2E1-4A6E-98D1-CB8E8ECA8541}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CalculatorAPI.Contracts", "CalculatorAPI.Contracts\CalculatorAPI.Contracts.csproj", "{907AE473-22BC-42B2-98E1-8840664412B9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CalculatorAPI.Contracts", "CalculatorAPI.Contracts\CalculatorAPI.Contracts.csproj", "{907AE473-22BC-42B2-98E1-8840664412B9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CalculatorAPI.Domain", "CalculatorAPI.Domain\CalculatorAPI.Domain.csproj", "{9C3ABCCA-1776-4DA8-961A-AAD1CC96A5EF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CalculatorAPI.Domain", "CalculatorAPI.Domain\CalculatorAPI.Domain.csproj", "{9C3ABCCA-1776-4DA8-961A-AAD1CC96A5EF}"
+	ProjectSection(ProjectDependencies) = postProject
+		{43249F1E-5A80-476A-B625-37E8FA910FCC} = {43249F1E-5A80-476A-B625-37E8FA910FCC}
+		{907AE473-22BC-42B2-98E1-8840664412B9} = {907AE473-22BC-42B2-98E1-8840664412B9}
+	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CalculatorAPI.Models", "CalculatorAPI.Models\CalculatorAPI.Models.csproj", "{43249F1E-5A80-476A-B625-37E8FA910FCC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CalculatorAPI.Models", "CalculatorAPI.Models\CalculatorAPI.Models.csproj", "{43249F1E-5A80-476A-B625-37E8FA910FCC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

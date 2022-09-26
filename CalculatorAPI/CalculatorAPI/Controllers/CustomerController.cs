@@ -9,26 +9,26 @@ namespace CalculatorAPI.Controllers
     public class CustomerController : ControllerBase
     {
         private readonly ILogger<CalculatorController> _logger;
-        private readonly List<Customer> _customers;
+        private readonly List<CustomerModel> _customers;
  
         public CustomerController(ILogger<CalculatorController> logger)
         {
             _logger = logger;
-            _customers = new List<Customer>
+            _customers = new List<CustomerModel>
             {
-                new Customer
+                new CustomerModel
                 {
                     Id = 1,
                     Name = "Jose Manuel",
                     DOB = new DateTime(1980, 7, 3)
                 },
-                new Customer
+                new CustomerModel
                 {
                     Id = 2,
                     Name = "Jorge Castro",
                     DOB = new DateTime(1981, 9, 3)
                 },
-                new Customer
+                new CustomerModel
                 {
                     Id = 3,
                     Name = "Catarina Costa",
@@ -47,13 +47,13 @@ namespace CalculatorAPI.Controllers
         [HttpGet("{id}", Name = "GetCustomerById")]
         public IActionResult GetCustomerById([FromRoute] int id)
         {
-            Customer findCostumer = _customers.Find(e => e.Id == id);
+            CustomerModel findCostumer = _customers.Find(e => e.Id == id);
             return (findCostumer == null) ? NotFound() : Ok(findCostumer);
         }
 
         // POST api/Customer
         [HttpPost]
-        public IActionResult Post([FromBody] Customer newCustomer)
+        public IActionResult Post([FromBody] CustomerModel newCustomer)
         {
             try
             {
@@ -69,9 +69,9 @@ namespace CalculatorAPI.Controllers
 
         // PUT api/Customer/id
         [HttpPut("{id}")]
-        public IActionResult Put(int id, [FromBody] Customer editedCustomer)
+        public IActionResult Put(int id, [FromBody] CustomerModel editedCustomer)
         {
-            Customer findCostumer = _customers.Find(e => e.Id == id);
+            CustomerModel findCostumer = _customers.Find(e => e.Id == id);
             if (findCostumer == null)
                 return NotFound();
 
@@ -93,7 +93,7 @@ namespace CalculatorAPI.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            Customer findCostumer = _customers.Find(e => e.Id == id);
+            CustomerModel findCostumer = _customers.Find(e => e.Id == id);
             if (findCostumer == null)
                 return NotFound();
 
