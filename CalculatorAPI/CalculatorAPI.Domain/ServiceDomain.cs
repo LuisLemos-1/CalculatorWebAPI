@@ -85,40 +85,25 @@ namespace CalculatorAPI.Domain
             }
         }
 
-        public Customer UpdateCustomer(int id, Customer editedCustomer)
+        public bool UpdateCustomer(int id, Customer editedCustomer)
         {
-            CustomerModel newCustomerModel = new CustomerModel
-            {
-                Id = editedCustomer.Id,
-                Name = editedCustomer.Name,
-                DOB = editedCustomer.DOB
-            };
+            int idx = _customers.FindIndex(e => e.Id == id);
+            if (idx == -1)
+                return false;
 
-            CustomerModel findCostumer = _customers.Find(e => e.Id == id);
-            if (findCostumer == null)
-                return null;
-
-            try
-            {
-                editedCustomer.Id = id;
-                _customers[_customers.FindIndex(e => e.Id == id)] = newCustomerModel;
-                //return CreatedAtAction(nameof(GetCustomerById), new { id = findCostumer.Id}, editedCustomer);
-                return editedCustomer;
-            }
-            catch (Exception ex)
-            {
-                return null;
-            }
-
+            _customers[idx].Name = editedCustomer.Name;
+            _customers[idx].DOB = editedCustomer.DOB;
+            return true;
         }
 
-        public void DeleteCustomerById(int id)
+        public bool DeleteCustomerById(int id)
         {
             CustomerModel findCostumer = _customers.Find(e => e.Id == id);
             if (findCostumer == null)
-                return;
+                return false;
 
             _customers.Remove(findCostumer);
+            return true;
         }
 
     }

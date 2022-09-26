@@ -12,8 +12,8 @@ namespace CalculatorAPI.Domain
         IEnumerable<Customer> GetAll();
         Customer GetCustomerById(int id);
         Customer AddCustomer(Customer customer); 
-        Customer UpdateCustomer(int id, Customer customer);
-        void DeleteCustomerById(int id);
+        bool UpdateCustomer(int id, Customer customer);
+        bool DeleteCustomerById(int id);
 
     }
 }
