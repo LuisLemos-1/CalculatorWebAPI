@@ -1,4 +1,6 @@
-﻿using CalculatorAPI.Models;
+﻿using CalculatorAPI.Contracts;
+using CalculatorAPI.Domain;
+using CalculatorAPI.Models;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
@@ -9,96 +11,57 @@ namespace CalculatorAPI.Controllers
     public class CustomerController : ControllerBase
     {
         private readonly ILogger<CalculatorController> _logger;
-        private readonly List<CustomerModel> _customers;
+        private readonly IServiceDomain domain;
  
         public CustomerController(ILogger<CalculatorController> logger)
         {
             _logger = logger;
-            _customers = new List<CustomerModel>
-            {
-                new CustomerModel
-                {
-                    Id = 1,
-                    Name = "Jose Manuel",
-                    DOB = new DateTime(1980, 7, 3)
-                },
-                new CustomerModel
-                {
-                    Id = 2,
-                    Name = "Jorge Castro",
-                    DOB = new DateTime(1981, 9, 3)
-                },
-                new CustomerModel
-                {
-                    Id = 3,
-                    Name = "Catarina Costa",
-                },
-            };
+            domain = new ServiceDomain();
+            
         }
 
         // GET: api/customer
         [HttpGet]
         public IActionResult GetAll()
         {
-            return Ok(_customers);
+            return Ok(domain.GetAll());
         }
 
         // GET: api/Customer/id
         [HttpGet("{id}", Name = "GetCustomerById")]
         public IActionResult GetCustomerById([FromRoute] int id)
         {
-            CustomerModel findCostumer = _customers.Find(e => e.Id == id);
+            Customer findCostumer = domain.GetCustomerById(id);
             return (findCostumer == null) ? NotFound() : Ok(findCostumer);
         }
 
         // POST api/Customer
         [HttpPost]
-        public IActionResult Post([FromBody] CustomerModel newCustomer)
+        public IActionResult Post([FromBody] Customer newCustomer)
         {
-            try
-            {
-                newCustomer.Id = _customers.Max(e => e.Id) + 1;
-                _customers.Add(newCustomer);
-                return CreatedAtAction(nameof(GetCustomerById), new { id = newCustomer.Id }, newCustomer);
-            }
-            catch(Exception ex)
-            {
-                return Problem(ex.Message);
-            }
+            var addedCustomer = domain.AddCustomer(newCustomer);
+
+            if(addedCustomer != null) return CreatedAtAction(nameof(GetCustomerById), new { id = addedCustomer.Id }, addedCustomer);
+            
+            return Problem("Problem occurred while adding Customer");
         }
 
         // PUT api/Customer/id
         [HttpPut("{id}")]
-        public IActionResult Put(int id, [FromBody] CustomerModel editedCustomer)
+        public IActionResult Put(int id, [FromBody] Customer editedCustomer)
         {
-            CustomerModel findCostumer = _customers.Find(e => e.Id == id);
-            if (findCostumer == null)
-                return NotFound();
-
-            try
-            {
-                editedCustomer.Id = id;
-                _customers[_customers.FindIndex(e => e.Id == id)] = editedCustomer;
-                //return CreatedAtAction(nameof(GetCustomerById), new { id = findCostumer.Id}, editedCustomer);
-                return NoContent();
-            }
-            catch(Exception ex)
-            {
-                return Problem(ex.Message);
-            }
-
+            if(domain.UpdateCustomer(id, editedCustomer)) return NoContent();
+            
+            return Problem("Problem occurred while updating Customer");
         }
 
         // DELETE api/Customer/id
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            CustomerModel findCostumer = _customers.Find(e => e.Id == id);
-            if (findCostumer == null)
-                return NotFound();
+            if (domain.DeleteCustomerById(id)) return Ok();
 
-            _customers.Remove(findCostumer);
-            return Ok();
+            return NotFound();
         }
     }
 }

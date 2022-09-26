@@ -8,6 +8,8 @@
     ".NETCoreApp,Version=v6.0": {
       "CalculatorAPI/1.0.0": {
         "dependencies": {
+          "CalculatorAPI.Contracts": "1.0.0",
+          "CalculatorAPI.Domain": "1.0.0",
           "Newtonsoft.Json": "13.0.1",
           "Swashbuckle.AspNetCore": "6.2.3"
         },
@@ -69,6 +71,25 @@
             "fileVersion": "6.2.3.0"
           }
         }
+      },
+      "CalculatorAPI.Contracts/1.0.0": {
+        "runtime": {
+          "CalculatorAPI.Contracts.dll": {}
+        }
+      },
+      "CalculatorAPI.Domain/1.0.0": {
+        "dependencies": {
+          "CalculatorAPI.Contracts": "1.0.0",
+          "CalculatorAPI.Models": "1.0.0"
+        },
+        "runtime": {
+          "CalculatorAPI.Domain.dll": {}
+        }
+      },
+      "CalculatorAPI.Models/1.0.0": {
+        "runtime": {
+          "CalculatorAPI.Models.dll": {}
+        }
       }
     }
   },
@@ -126,6 +147,21 @@
       "sha512": "sha512-bCRI87uKJVb4G+KURWm8LQrL64St04dEFZcF6gIM67Zc0Sr/N47EO83ybLMYOvfNdO1DCv8xwPcrz9J/VEhQ5g==",
       "path": "swashbuckle.aspnetcore.swaggerui/6.2.3",
       "hashPath": "swashbuckle.aspnetcore.swaggerui.6.2.3.nupkg.sha512"
+    },
+    "CalculatorAPI.Contracts/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "CalculatorAPI.Domain/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "CalculatorAPI.Models/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
     }
   }
 }

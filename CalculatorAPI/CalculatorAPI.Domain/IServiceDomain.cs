@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace CalculatorAPI.Domain
 {
-    internal interface IServiceDomain
+    public interface IServiceDomain
     {
         IEnumerable<Customer> GetAll();
         Customer GetCustomerById(int id);

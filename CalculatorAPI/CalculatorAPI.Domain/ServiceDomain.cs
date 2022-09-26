@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace CalculatorAPI.Domain 
 {
-    internal class ServiceDomain : IServiceDomain
+    public class ServiceDomain : IServiceDomain
     {
         private readonly List<CustomerModel> _customers;
 
@@ -44,8 +44,8 @@ namespace CalculatorAPI.Domain
             {
                 customersList.Add(new Customer
                 {
-                    Id=c.Id,
-                    Name=c.Name,   
+                    Id = c.Id,
+                    Name = c.Name,   
                     DOB = c.DOB
                 });
             }
@@ -54,7 +54,7 @@ namespace CalculatorAPI.Domain
 
         public Customer GetCustomerById(int id)
         {
-            CustomerModel findCostumer = _customers.Find(e => e.Id == id);
+            var findCostumer = _customers.Where(e => e.Id == id).FirstOrDefault();
 
             if(findCostumer == null) return null;
 
@@ -76,10 +76,11 @@ namespace CalculatorAPI.Domain
             try
             {
                 newCustomerModel.Id = _customers.Max(e => e.Id) + 1;
+                newCustomer.Id = newCustomerModel.Id;
                 _customers.Add(newCustomerModel);
                 return newCustomer;
             }
-            catch (Exception ex)
+            catch
             {
                 return null;
             }
@@ -87,18 +88,21 @@ namespace CalculatorAPI.Domain
 
         public bool UpdateCustomer(int id, Customer editedCustomer)
         {
-            int idx = _customers.FindIndex(e => e.Id == id);
-            if (idx == -1)
-                return false;
+            var existingCustomer = _customers.Where(e => e.Id == id).FirstOrDefault();
 
-            _customers[idx].Name = editedCustomer.Name;
-            _customers[idx].DOB = editedCustomer.DOB;
+            if (existingCustomer == null) return false;
+
+            existingCustomer.Name = editedCustomer.Name;
+            existingCustomer.DOB = editedCustomer.DOB;
+
             return true;
         }
 
         public bool DeleteCustomerById(int id)
         {
-            CustomerModel findCostumer = _customers.Find(e => e.Id == id);
+            //CustomerModel findCostumer = _customers.Where(e => e.Id == id).FirstOrDefault();
+            var findCostumer = _customers.Where(e => e.Id == id).FirstOrDefault();
+
             if (findCostumer == null)
                 return false;
 
