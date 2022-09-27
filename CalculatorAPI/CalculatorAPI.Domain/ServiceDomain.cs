@@ -1,4 +1,5 @@
-﻿using CalculatorAPI.Contracts;
+﻿using AutoMapper;
+using CalculatorAPI.Contracts;
 using CalculatorAPI.Models;
 using System;
 using System.Collections.Generic;
@@ -11,45 +12,16 @@ namespace CalculatorAPI.Domain
     public class ServiceDomain : IServiceDomain
     {
         private readonly List<CustomerModel> _customers;
+        private readonly IMapper _mapper;
 
-        public ServiceDomain()
+        public ServiceDomain(IMapper mapper)
         {
-            _customers = new List<CustomerModel>
-            {
-                new CustomerModel
-                {
-                    Id = 1,
-                    Name = "Jose Manuel",
-                    DOB = new DateTime(1980, 7, 3)
-                },
-                new CustomerModel
-                {
-                    Id = 2,
-                    Name = "Jorge Castro",
-                    DOB = new DateTime(1981, 9, 3)
-                },
-                new CustomerModel
-                {
-                    Id = 3,
-                    Name = "Catarina Costa",
-                },
-            };
+            _mapper = mapper;
         }
 
         public IEnumerable<Customer> GetAll()
         {
-            List<Customer> customersList = new List<Customer>();
-
-            foreach (var c in _customers)
-            {
-                customersList.Add(new Customer
-                {
-                    Id = c.Id,
-                    Name = c.Name,   
-                    DOB = c.DOB
-                });
-            }
-            return customersList;
+            return _mapper.Map<List<Customer>>(_customers);
         }
 
         public Customer GetCustomerById(int id)
@@ -58,26 +30,23 @@ namespace CalculatorAPI.Domain
 
             if(findCostumer == null) return null;
 
-            return new Customer
-            {
-                Id = findCostumer.Id,
-                Name = findCostumer.Name,
-                DOB = findCostumer.DOB
-            };
+            return _mapper.Map<Customer>(findCostumer);
         }
 
         public Customer AddCustomer(Customer newCustomer)
         {
-            CustomerModel newCustomerModel = new CustomerModel {
-                Name = newCustomer.Name,
-                DOB = newCustomer.DOB
-            };
+            //CustomerModel newCustomerModel = new CustomerModel {
+            //    Name = newCustomer.Name,
+            //    DOB = newCustomer.DOB
+            //};
 
             try
             {
-                newCustomerModel.Id = _customers.Max(e => e.Id) + 1;
-                newCustomer.Id = newCustomerModel.Id;
-                _customers.Add(newCustomerModel);
+                //newCustomerModel.Id = _customers.Max(e => e.Id) + 1;
+                //newCustomer.Id = newCustomerModel.Id;
+                //_customers.Add(newCustomerModel);
+                newCustomer.Id = _customers.Max(e => e.Id) + 1;
+                _customers.Add(_mapper.Map<CustomerModel>(newCustomer));
                 return newCustomer;
             }
             catch

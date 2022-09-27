@@ -11,12 +11,12 @@ namespace CalculatorAPI.Controllers
     public class CustomerController : ControllerBase
     {
         private readonly ILogger<CalculatorController> _logger;
-        private readonly IServiceDomain domain;
+        private readonly IServiceDomain _domain;
  
-        public CustomerController(ILogger<CalculatorController> logger)
+        public CustomerController(ILogger<CalculatorController> logger, IServiceDomain domain)
         {
             _logger = logger;
-            domain = new ServiceDomain();
+            _domain = domain;
             
         }
 
@@ -24,14 +24,14 @@ namespace CalculatorAPI.Controllers
         [HttpGet]
         public IActionResult GetAll()
         {
-            return Ok(domain.GetAll());
+            return Ok(_domain.GetAll());
         }
 
         // GET: api/Customer/id
         [HttpGet("{id}", Name = "GetCustomerById")]
         public IActionResult GetCustomerById([FromRoute] int id)
         {
-            Customer findCostumer = domain.GetCustomerById(id);
+            Customer findCostumer = _domain.GetCustomerById(id);
             return (findCostumer == null) ? NotFound() : Ok(findCostumer);
         }
 
@@ -39,7 +39,7 @@ namespace CalculatorAPI.Controllers
         [HttpPost]
         public IActionResult Post([FromBody] Customer newCustomer)
         {
-            var addedCustomer = domain.AddCustomer(newCustomer);
+            var addedCustomer = _domain.AddCustomer(newCustomer);
 
             if(addedCustomer != null) return CreatedAtAction(nameof(GetCustomerById), new { id = addedCustomer.Id }, addedCustomer);
             
@@ -50,7 +50,7 @@ namespace CalculatorAPI.Controllers
         [HttpPut("{id}")]
         public IActionResult Put(int id, [FromBody] Customer editedCustomer)
         {
-            if(domain.UpdateCustomer(id, editedCustomer)) return NoContent();
+            if(_domain.UpdateCustomer(id, editedCustomer)) return NoContent();
             
             return Problem("Problem occurred while updating Customer");
         }
@@ -59,7 +59,7 @@ namespace CalculatorAPI.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            if (domain.DeleteCustomerById(id)) return Ok();
+            if (_domain.DeleteCustomerById(id)) return Ok();
 
             return NotFound();
         }

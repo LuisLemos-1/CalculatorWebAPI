@@ -32,3 +32,5 @@ C:\Users\UtilizadorPC\Documents\GitHub\CalculatorWebAPI\CalculatorAPI\Calculator
 C:\Users\UtilizadorPC\Documents\GitHub\CalculatorWebAPI\CalculatorAPI\CalculatorAPI\bin\Debug\net6.0\CalculatorAPI.Contracts.pdb
 C:\Users\UtilizadorPC\Documents\GitHub\CalculatorWebAPI\CalculatorAPI\CalculatorAPI\bin\Debug\net6.0\CalculatorAPI.Domain.pdb
 C:\Users\UtilizadorPC\Documents\GitHub\CalculatorWebAPI\CalculatorAPI\CalculatorAPI\bin\Debug\net6.0\CalculatorAPI.Models.pdb
+C:\Users\UtilizadorPC\Documents\GitHub\CalculatorWebAPI\CalculatorAPI\CalculatorAPI\bin\Debug\net6.0\AutoMapper.dll
+C:\Users\UtilizadorPC\Documents\GitHub\CalculatorWebAPI\CalculatorAPI\CalculatorAPI\bin\Debug\net6.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
