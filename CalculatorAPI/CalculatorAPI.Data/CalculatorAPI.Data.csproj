@@ -7,12 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.9" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.9" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CalculatorAPI.Contracts\CalculatorAPI.Contracts.csproj" />
-    <ProjectReference Include="..\CalculatorAPI.Data\CalculatorAPI.Data.csproj" />
     <ProjectReference Include="..\CalculatorAPI.Models\CalculatorAPI.Models.csproj" />
   </ItemGroup>
 

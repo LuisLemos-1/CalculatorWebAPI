@@ -1,3 +1,4 @@
+using CalculatorAPI.Data;
 using CalculatorAPI.Domain;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,7 +10,10 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// Add Dependency Injections
 builder.Services.AddScoped<IServiceDomain, ServiceDomain>();
+builder.Services.AddScoped<IDataContext, DataContext>();
+
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 

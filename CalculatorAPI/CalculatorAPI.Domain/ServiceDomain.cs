@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using CalculatorAPI.Contracts;
+using CalculatorAPI.Data;
 using CalculatorAPI.Models;
 using System;
 using System.Collections.Generic;
@@ -11,24 +12,28 @@ namespace CalculatorAPI.Domain
 {
     public class ServiceDomain : IServiceDomain
     {
-        private readonly List<CustomerModel> _customers;
+        //private readonly List<CustomerModel> _customers;
+        private readonly IDataContext _data;
         private readonly IMapper _mapper;
 
-        public ServiceDomain(IMapper mapper)
+        public ServiceDomain(IMapper mapper, IDataContext data)
         {
             _mapper = mapper;
+            _data = data;
         }
 
         public IEnumerable<Customer> GetAll()
         {
-            return _mapper.Map<List<Customer>>(_customers);
+            return _mapper.Map<List<Customer>>(_data.Customers.ToList());
+            //return _data.Customers.ToList();
         }
 
         public Customer GetCustomerById(int id)
         {
-            var findCostumer = _customers.Where(e => e.Id == id).FirstOrDefault();
+            //var findCostumer = _customers.Where(e => e.Id == id).FirstOrDefault();
+            var findCostumer = _data.Customers.Where(e => e.Id == id).FirstOrDefault();
 
-            if(findCostumer == null) return null;
+            if (findCostumer == null) return null;
 
             return _mapper.Map<Customer>(findCostumer);
         }
@@ -45,8 +50,11 @@ namespace CalculatorAPI.Domain
                 //newCustomerModel.Id = _customers.Max(e => e.Id) + 1;
                 //newCustomer.Id = newCustomerModel.Id;
                 //_customers.Add(newCustomerModel);
-                newCustomer.Id = _customers.Max(e => e.Id) + 1;
-                _customers.Add(_mapper.Map<CustomerModel>(newCustomer));
+                //newCustomer.Id = _customers.Max(e => e.Id) + 1;
+                newCustomer.Id = _data.Customers.Max(e => e.Id) + 1;
+
+                //_customers.Add(_mapper.Map<CustomerModel>(newCustomer));
+                _data.Customers.Add(_mapper.Map<CustomerModel>(newCustomer));
                 return newCustomer;
             }
             catch
@@ -57,7 +65,8 @@ namespace CalculatorAPI.Domain
 
         public bool UpdateCustomer(int id, Customer editedCustomer)
         {
-            var existingCustomer = _customers.Where(e => e.Id == id).FirstOrDefault();
+            //var existingCustomer = _customers.Where(e => e.Id == id).FirstOrDefault();
+            var existingCustomer = _data.Customers.Where(e => e.Id == id).FirstOrDefault();
 
             if (existingCustomer == null) return false;
 
@@ -70,12 +79,14 @@ namespace CalculatorAPI.Domain
         public bool DeleteCustomerById(int id)
         {
             //CustomerModel findCostumer = _customers.Where(e => e.Id == id).FirstOrDefault();
-            var findCostumer = _customers.Where(e => e.Id == id).FirstOrDefault();
+            //var findCostumer = _customers.Where(e => e.Id == id).FirstOrDefault();
+            var findCostumer = _data.Customers.Where(e => e.Id == id).FirstOrDefault();
 
             if (findCostumer == null)
                 return false;
 
-            _customers.Remove(findCostumer);
+            //_customers.Remove(findCostumer);
+            _data.Customers.Remove(findCostumer);
             return true;
         }
 
