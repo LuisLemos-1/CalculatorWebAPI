@@ -12,7 +12,6 @@ namespace CalculatorAPI.Domain
 {
     public class ServiceDomain : IServiceDomain
     {
-        //private readonly List<CustomerModel> _customers;
         private readonly IDataContext _data;
         private readonly IMapper _mapper;
 
@@ -25,12 +24,10 @@ namespace CalculatorAPI.Domain
         public IEnumerable<Customer> GetAll()
         {
             return _mapper.Map<List<Customer>>(_data.Customers.ToList());
-            //return _data.Customers.ToList();
         }
 
         public Customer GetCustomerById(int id)
         {
-            //var findCostumer = _customers.Where(e => e.Id == id).FirstOrDefault();
             var findCostumer = _data.Customers.Where(e => e.Id == id).FirstOrDefault();
 
             if (findCostumer == null) return null;
@@ -40,24 +37,18 @@ namespace CalculatorAPI.Domain
 
         public Customer AddCustomer(Customer newCustomer)
         {
-            //CustomerModel newCustomerModel = new CustomerModel {
-            //    Name = newCustomer.Name,
-            //    DOB = newCustomer.DOB
-            //};
+            CustomerModel newCustomerModel = new CustomerModel {
+                Name = newCustomer.Name,
+                DOB = newCustomer.DOB
+            };
 
             try
             {
-                //newCustomerModel.Id = _customers.Max(e => e.Id) + 1;
-                //newCustomer.Id = newCustomerModel.Id;
-                //_customers.Add(newCustomerModel);
-                //newCustomer.Id = _customers.Max(e => e.Id) + 1;
-                newCustomer.Id = _data.Customers.Max(e => e.Id) + 1;
-
-                //_customers.Add(_mapper.Map<CustomerModel>(newCustomer));
-                _data.Customers.Add(_mapper.Map<CustomerModel>(newCustomer));
-                return newCustomer;
+                _data.Customers.Add(newCustomerModel);
+                _data.saveDB();
+                return _mapper.Map<Customer>(newCustomerModel);
             }
-            catch
+            catch (Exception ex)
             {
                 return null;
             }
@@ -73,21 +64,35 @@ namespace CalculatorAPI.Domain
             existingCustomer.Name = editedCustomer.Name;
             existingCustomer.DOB = editedCustomer.DOB;
 
+            _data.saveDB();
             return true;
         }
 
         public bool DeleteCustomerById(int id)
         {
-            //CustomerModel findCostumer = _customers.Where(e => e.Id == id).FirstOrDefault();
-            //var findCostumer = _customers.Where(e => e.Id == id).FirstOrDefault();
             var findCostumer = _data.Customers.Where(e => e.Id == id).FirstOrDefault();
 
             if (findCostumer == null)
                 return false;
 
-            //_customers.Remove(findCostumer);
             _data.Customers.Remove(findCostumer);
+            _data.saveDB();
             return true;
+        }
+
+        public IEnumerable<CustomerByProduct> GetCustomersByIdProduct(int id)
+        {
+            var query = 
+                from person in _data.Customers.ToList()
+                join order in _data.Orders.ToList() on id equals order.IdProduct
+                select new CustomerByProduct()
+                {
+                    Id = person.Id,
+                    Name = person.Name,
+                    IdOrder = order.IdOrder
+                };
+
+            return query;
         }
 
     }

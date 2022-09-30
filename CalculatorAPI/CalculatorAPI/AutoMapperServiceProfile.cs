@@ -9,6 +9,8 @@ namespace CalculatorAPI
         public AutoMapperServiceProfile()
         {
             CreateMap<CustomerModel, Customer>();
+            CreateMap<OrderModel, Order>();
+            CreateMap<ProductModel, Product>();
         }
     }
 }

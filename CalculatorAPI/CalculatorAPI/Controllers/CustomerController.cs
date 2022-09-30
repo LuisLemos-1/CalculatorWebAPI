@@ -3,6 +3,7 @@ using CalculatorAPI.Domain;
 using CalculatorAPI.Models;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using System.Dynamic;
 
 namespace CalculatorAPI.Controllers
 {
@@ -62,6 +63,15 @@ namespace CalculatorAPI.Controllers
             if (_domain.DeleteCustomerById(id)) return Ok();
 
             return NotFound();
+        }
+
+        // GET api/Customer/Order/Product/id
+        [HttpGet("Order/Product/{id}")]
+        public IActionResult GetCustomersByIdProduct(int id)
+        {
+            var result = _domain.GetCustomersByIdProduct(id);
+
+            return (result.ToList().Count == 0) ? NotFound() : Ok(result.ToList());
         }
     }
 }

@@ -13,6 +13,7 @@ namespace CalculatorAPI.Data
         DbSet<CustomerModel> Customers { get; set; }
         DbSet<OrderModel> Orders { get; set; }
         DbSet<ProductModel> Products { get; set; }
+        int saveDB();
 
     }
 }
