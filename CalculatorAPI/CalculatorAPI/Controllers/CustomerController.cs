@@ -1,6 +1,9 @@
-﻿using CalculatorAPI.Models;
+﻿using CalculatorAPI.Contracts;
+using CalculatorAPI.Domain;
+using CalculatorAPI.Models;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using System.Dynamic;
 
 namespace CalculatorAPI.Controllers
 {
@@ -9,45 +12,27 @@ namespace CalculatorAPI.Controllers
     public class CustomerController : ControllerBase
     {
         private readonly ILogger<CalculatorController> _logger;
-        private readonly List<Customer> _customers;
+        private readonly IServiceDomain _domain;
  
-        public CustomerController(ILogger<CalculatorController> logger)
+        public CustomerController(ILogger<CalculatorController> logger, IServiceDomain domain)
         {
             _logger = logger;
-            _customers = new List<Customer>
-            {
-                new Customer
-                {
-                    Id = 1,
-                    Name = "Jose Manuel",
-                    DOB = new DateTime(1980, 7, 3)
-                },
-                new Customer
-                {
-                    Id = 2,
-                    Name = "Jorge Castro",
-                    DOB = new DateTime(1981, 9, 3)
-                },
-                new Customer
-                {
-                    Id = 3,
-                    Name = "Catarina Costa",
-                },
-            };
+            _domain = domain;
+            
         }
 
         // GET: api/customer
         [HttpGet]
         public IActionResult GetAll()
         {
-            return Ok(_customers);
+            return Ok(_domain.GetAll());
         }
 
         // GET: api/Customer/id
         [HttpGet("{id}", Name = "GetCustomerById")]
         public IActionResult GetCustomerById([FromRoute] int id)
         {
-            Customer findCostumer = _customers.Find(e => e.Id == id);
+            Customer findCostumer = _domain.GetCustomerById(id);
             return (findCostumer == null) ? NotFound() : Ok(findCostumer);
         }
 
@@ -55,50 +40,38 @@ namespace CalculatorAPI.Controllers
         [HttpPost]
         public IActionResult Post([FromBody] Customer newCustomer)
         {
-            try
-            {
-                newCustomer.Id = _customers.Max(e => e.Id) + 1;
-                _customers.Add(newCustomer);
-                return CreatedAtAction(nameof(GetCustomerById), new { id = newCustomer.Id }, newCustomer);
-            }
-            catch(Exception ex)
-            {
-                return Problem(ex.Message);
-            }
+            var addedCustomer = _domain.AddCustomer(newCustomer);
+
+            if(addedCustomer != null) return CreatedAtAction(nameof(GetCustomerById), new { id = addedCustomer.Id }, addedCustomer);
+            
+            return Problem("Problem occurred while adding Customer");
         }
 
         // PUT api/Customer/id
         [HttpPut("{id}")]
         public IActionResult Put(int id, [FromBody] Customer editedCustomer)
         {
-            Customer findCostumer = _customers.Find(e => e.Id == id);
-            if (findCostumer == null)
-                return NotFound();
-
-            try
-            {
-                editedCustomer.Id = id;
-                _customers[_customers.FindIndex(e => e.Id == id)] = editedCustomer;
-                //return CreatedAtAction(nameof(GetCustomerById), new { id = findCostumer.Id}, editedCustomer);
-                return NoContent();
-            }
-            catch(Exception ex)
-            {
-                return Problem(ex.Message);
-            }
-
+            if(_domain.UpdateCustomer(id, editedCustomer)) return NoContent();
+            
+            return Problem("Problem occurred while updating Customer");
         }
 
         // DELETE api/Customer/id
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            Customer findCostumer = _customers.Find(e => e.Id == id);
-            if (findCostumer == null)
-                return NotFound();
+            if (_domain.DeleteCustomerById(id)) return Ok();
 
-            _customers.Remove(findCostumer);
-            return Ok();
+            return NotFound();
+        }
+
+        // GET api/Customer/Order/Product/id
+        [HttpGet("Order/Product/{id}")]
+        public IActionResult GetCustomersByIdProduct(int id)
+        {
+            var result = _domain.GetCustomersByIdProduct(id);
+
+            return (result.ToList().Count == 0) ? NotFound() : Ok(result.ToList());
         }
     }
 }

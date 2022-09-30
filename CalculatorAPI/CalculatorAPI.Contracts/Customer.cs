@@ -1,4 +1,4 @@
-﻿namespace CalculatorAPI.Models
+﻿namespace CalculatorAPI.Contracts
 {
     public class Customer
     {
