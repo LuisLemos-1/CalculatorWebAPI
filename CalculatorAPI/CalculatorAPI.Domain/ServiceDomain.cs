@@ -46,7 +46,8 @@ namespace CalculatorAPI.Domain
             {
                 _data.Customers.Add(newCustomerModel);
                 _data.saveDB();
-                return _mapper.Map<Customer>(newCustomerModel);
+                //return _mapper.Map<Customer>(newCustomerModel);
+                return _mapper.Map<Customer>(_data.Customers.Last());
             }
             catch (Exception ex)
             {

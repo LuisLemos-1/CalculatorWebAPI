@@ -18,7 +18,6 @@ namespace CalculatorAPI.Controllers
         {
             _logger = logger;
             _domain = domain;
-            
         }
 
         // GET: api/customer
