@@ -4,6 +4,7 @@ using CalculatorAPI.Contracts;
 using CalculatorAPI.Data;
 using CalculatorAPI.Domain;
 using CalculatorAPI.Models;
+using Microsoft.EntityFrameworkCore;
 using Moq;
 using Moq.EntityFrameworkCore;
 using System;
@@ -17,7 +18,7 @@ namespace CalculatorAPI.Tests.DomainTests
     public class ServiceDomainTests
     {
         [Fact]
-        public void GetAll_GettingAll_WithThreeCustomers()
+        public void Domain_GetAll_ReturnAllCustomers_WhenNotEmpty()
         {
             // Arrange
             var dataContextMock = new Mock<IDataContext>();
@@ -34,22 +35,23 @@ namespace CalculatorAPI.Tests.DomainTests
 
             //Act
             var actual = domain.GetAll();
-            IEnumerable<Customer> expected = mapper.Map<List<Customer>>(customerModelList);
+            List<Customer> expected = mapper.Map<List<Customer>>(customerModelList);
 
             //Assert
             Assert.Equal(expected.Count(), actual.Count());
 
             //Assert.Equal(expected, actual);
-            for (int i = 0; i < expected.Count(); i++)
-            {
-                Assert.Equal(expected.ElementAt(i).Id, actual.ElementAt(i).Id);
-                Assert.Equal(expected.ElementAt(i).Name, actual.ElementAt(i).Name);
-                Assert.Equal(expected.ElementAt(i).DOB, actual.ElementAt(i).DOB);
-            }
+            expected.ForEach(x => {
+                var customer = actual.Where(c => c.Id == x.Id).FirstOrDefault();
+                Assert.NotNull(customer);
+                Assert.Equal(x.Id, customer.Id);
+                Assert.Equal(x.Name, customer.Name);
+                Assert.Equal(x.DOB, customer.DOB);
+            });
         }
 
         [Fact]
-        public void GetAll_GettingNothing()
+        public void Domain_GetAll_ReturnEmptyList_WhenNoCustomers()
         {
             // Arrange
             var dataContextMock = new Mock<IDataContext>();
@@ -74,7 +76,7 @@ namespace CalculatorAPI.Tests.DomainTests
         }
 
         [Fact]
-        public void GetCustomerById_Found()
+        public void Domain_GetCustomerById_ReturnFoundCustomer_WhenFoundOnList()
         {
             // Arrange
             var customerToFind = new CustomerModel()
@@ -106,7 +108,7 @@ namespace CalculatorAPI.Tests.DomainTests
         }
 
         [Fact]
-        public void GetCustomerById_NotFound()
+        public void Domain_GetCustomerById_ReturnNullCustomer_WhenNotFoundOnList()
         {
             // Arrange
             var dataContextMock = new Mock<IDataContext>();
@@ -124,14 +126,14 @@ namespace CalculatorAPI.Tests.DomainTests
             var actual = domain.GetCustomerById(customerModelList.Count() + 1);
 
             //Assert
-            Assert.True(actual == null);
+            Assert.Null(actual);
         }
 
         [Theory]
         [InlineData(4,"Rodrigo Lemos", "2000-01-15")]
         [InlineData(4, "Ana Sampaio", "2010-11-05")]
         [InlineData(4, "Carolina Costa", "2001-03-04")]
-        public void AddCustomer_CustomerAddedSucessfully(int id, string name, string dob)
+        public void Domain_AddCustomer_ReturnCustomer_WhenCustomerIsAddedToList(int id, string name, string dob)
         {
             // Arrange
             Customer newCustomer = new Customer()
@@ -140,7 +142,7 @@ namespace CalculatorAPI.Tests.DomainTests
                 Name = name,
                 DOB = DateTime.Parse(dob)                
             };
-
+        
             var dataContextMock = new Mock<IDataContext>();
             var customerModelList = CreateCustomersList();
             dataContextMock.Setup(x => x.Customers).ReturnsDbSet(customerModelList);
@@ -158,11 +160,14 @@ namespace CalculatorAPI.Tests.DomainTests
             var newCustomersList = domain.GetAll();
 
             //Assert
-            Assert.Equal(expected.Id, actual.Id);
-            Assert.Equal(expected.Name, actual.Name);
-            Assert.Equal(expected.DOB, actual.DOB);
-            Assert.True(customerModelList.Count + 1 == newCustomersList.Count());
+            dataContextMock.Verify(m => m.Customers.Add(It.IsAny<CustomerModel>()), Times.Once());
+            dataContextMock.Verify(m => m.saveDB(), Times.Once());
+            //Assert.Equal(expected.Id, actual.Id);
+            //Assert.Equal(expected.Name, actual.Name);
+            //Assert.Equal(expected.DOB, actual.DOB);
+            //Assert.True(customerModelList.Count + 1 == newCustomersList.Count());
         }
+
 
         private List<CustomerModel> CreateCustomersList()
         {
