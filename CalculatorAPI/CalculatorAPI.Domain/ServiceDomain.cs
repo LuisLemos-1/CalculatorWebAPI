@@ -46,8 +46,8 @@ namespace CalculatorAPI.Domain
             {
                 _data.Customers.Add(newCustomerModel);
                 _data.saveDB();
-                //return _mapper.Map<Customer>(newCustomerModel);
-                return _mapper.Map<Customer>(_data.Customers.Last());
+                newCustomerModel.Id = _data.Customers.Last().Id;
+                return _mapper.Map<Customer>(newCustomerModel);
             }
             catch (Exception ex)
             {
@@ -85,7 +85,8 @@ namespace CalculatorAPI.Domain
         {
             var query = 
                 from person in _data.Customers.ToList()
-                join order in _data.Orders.ToList() on id equals order.IdProduct
+                join order in _data.Orders.ToList() on person.Id equals order.IdCustomer
+                where id == order.IdProduct
                 select new CustomerByProduct()
                 {
                     Id = person.Id,
